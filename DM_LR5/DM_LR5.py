@@ -26,17 +26,19 @@ print (way, "- Way from %(0)i to %(1)i DFS with length -" % {'0':source, '1':tar
 Mark = [False]*n
 Mark[source-1] = True
 # Инициализация очереди и счетчика ярусов
-Q = [source-1]
-head = 0
-length = 0
 cur = 1
 nxt = 0
+
+length_min = 0
+Q = [source-1] # очередь обхода графа
+QM =[[source-1],] # ярусы в очереди
+head = 0
 # Обход в ширину с поиском минимальной длины
 while head<len(Q):
     u = Q[head]
-    
     for v in range(n):
         if v == target-1 and A[u][v]==1:
+            Q.append(v)
             head = n
             break
         if A[u][v]==1 and not Mark[v]:
@@ -46,25 +48,21 @@ while head<len(Q):
     cur-=1
     if (cur==0):
         cur = nxt
+        QM.append([Q[i] for i in range(len(Q)-nxt, len(Q))])
         nxt = 0
-        length+=1
+        length_min+=1
     head += 1
-print ("Min length -", length)
 
-Mark = [False]*n
-way = [target]
-length_tmp = 0
-# Рекурсивная процедура обхода в глубину с поиском дороги заданной длины
-def DFSway(u):
-    global A, Mark, length_tmp, length
-    Mark[u] = True
-    length_tmp +=1
-    for v in range(n):
-        if (A[u][v]==1 and not Mark[v]):  
-            DFSway(v)
-    if Mark[target-1] and length_tmp==length:  
-        way.append(u+1)      
-        return way.reverse()
-    length_tmp-=1   
-DFSway(source-1)
-print (way, "- Way from %(0)i to %(1)i BFS with length -" % {'0':source, '1':target}, length)
+way = []
+def Back(cur, i = len(QM)-1):
+    global A, QM
+    if QM[i][0]==source-1:
+        way.append(cur+1)
+        return 
+    for prew in QM[i-1]:
+        if A[cur][prew]==1:
+            Back(prew,i-1)
+            way.append(cur+1)
+            
+Back(target-1)
+print (way, "- Way from %(0)i to %(1)i BFS with minimum length -" % {'0':source, '1':target}, length_min)
