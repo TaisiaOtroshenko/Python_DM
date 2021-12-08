@@ -15,17 +15,8 @@ def menu():
     func = [consoleIn, randomIn, increasIn, decreasIn]
     return func[comand-1]()
 
-
-def sorted(m):
-    b = True
-    for i in range(len(m)-1):
-        if (m[i]>m[i+1]):
-            b = False
-    return b
 # ВЫБОРОМ
 def select(m):
-    if (sorted(m)==True):
-        return m
     for i in range(len(m)-1):
         min = i 
         for j in range(i+1, len(m)): # выбор минимального после текущего элемента
@@ -35,8 +26,6 @@ def select(m):
     return m
 # ОБМЕНОМ
 def change(m):
-    if (sorted(m)==True):
-        return m
     for j in range(len(m)-1):
         for i in range(len(m)-j-1): # потому что после каждой итерации на "законное" место встает один элемент с конца
             if (m[i+1]<m[i]):
@@ -44,8 +33,6 @@ def change(m):
     return m
 # ВСТАВКАМИ
 def insert(m):
-    if (sorted(m)==True):
-        return m
     for i in range(1,len(m)):
         tmp = m[i]
         for j in reversed(range(-1,i)):
@@ -57,8 +44,6 @@ def insert(m):
     return m
 # ФОН НЕЙМАНА
 def neumann(m): # разбиение
-    if (sorted(m)==True):
-        return m
     if(len(m)>1):
         pivot = random.randint(0,len(m)-1) # int(len(m)/2)
         return merge(neumann(m[:pivot]),neumann(m[pivot:]))
@@ -77,8 +62,6 @@ def merge(a, b): # слияние
     return m+a[i:]+b[j:]
 # КВИКСОРТ
 def quicksort(m):
-    if (sorted(m)==True):
-        return m
     if(len(m)>1):
         pivot = random.randint(0,len(m)-1)
         s, b = [],[]
@@ -98,14 +81,14 @@ def controlNum(m):
     return min(a)
     
 while (True):
-    mass = decreasIn()
+    mass = randomIn()
     print("Изначальный массив", mass)
     s = time.time()
-    mass = select(mass)
+    # mass = select(mass)
     # mass = change(mass)
     # mass = insert(mass)
     # mass = neumann(mass)
-    # mass = quicksort(mass)
+    mass = quicksort(mass)
     f = time.time() - s
     print("Отсортированный массив", mass)
     print("Время - ", f)
