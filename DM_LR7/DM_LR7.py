@@ -29,7 +29,7 @@ Three =[]
 for weight, start, end in Edges:
     if Comp[start] != Comp[end]:
         Ans += weight
-        Three.append([weight, start+1, end+1])
+        Three.append([weight, start, end])
         a = Comp[start]
         b = Comp[end]
         for i in range(n):
@@ -63,7 +63,7 @@ Three = []
 for way in ways:
     for i in range(len(way)-1):
         tmp = sorted([way[i], way[i+1]])
-        if [A[tmp[0]][tmp[1]], tmp[0]+1,tmp[1]+1] not in Three:
-            Three.append([A[tmp[0]][tmp[1]], tmp[0]+1,tmp[1]+1])
+        if [A[tmp[0]][tmp[1]], tmp[0],tmp[1]] not in Three:
+            Three.append([A[tmp[0]][tmp[1]], tmp[0],tmp[1]])
 print ("Длина каркаса (алгоритм Прима)-", Ans)
 print ("\tКаркас -", *Three)
