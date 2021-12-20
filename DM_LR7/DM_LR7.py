@@ -29,15 +29,15 @@ Three =[]
 for weight, start, end in Edges:
     if Comp[start] != Comp[end]:
         Ans += weight
-        Three.append([weight, start, end])
+        Three.append([weight, start+1, end+1])
         a = Comp[start]
         b = Comp[end]
         for i in range(n):
             if Comp[i] == b:
                 Comp[i] = a
                 
-print ("Длина каркаса (алгоритм Краскала)-", Ans)
-print ("\tКаркас -", *Three)
+print ("\tДлина каркаса (алгоритм Краскала)-", Ans)
+print ("Каркас -", *Three)
 
 ways = [[i] for i in range(n)] # список кратчайших путей
 dist = [math.inf] * n 
@@ -63,7 +63,7 @@ Three = []
 for way in ways:
     for i in range(len(way)-1):
         tmp = sorted([way[i], way[i+1]])
-        if [A[tmp[0]][tmp[1]], tmp[0],tmp[1]] not in Three:
-            Three.append([A[tmp[0]][tmp[1]], tmp[0],tmp[1]])
-print ("Длина каркаса (алгоритм Прима)-", Ans)
-print ("\tКаркас -", *Three)
+        if [A[tmp[0]][tmp[1]], tmp[0]+1,tmp[1]+1] not in Three:
+            Three.append([A[tmp[0]][tmp[1]], tmp[0]+1,tmp[1]+1])
+print ("\tДлина каркаса (алгоритм Прима)-", Ans)
+print ("Каркас -", *Three)
